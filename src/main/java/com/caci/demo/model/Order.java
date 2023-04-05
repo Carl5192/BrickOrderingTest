@@ -10,15 +10,15 @@ import jakarta.persistence.GenerationType;
 
 @Entity
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    private String orderReference;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private int numberOfBricks;
+	private String orderReference;
 
-    private boolean isDispatched;
+	private int numberOfBricks;
+
+	private boolean isDispatched;
 
 	public Long getId() {
 		return id;
@@ -43,7 +43,7 @@ public class Order {
 	public void setNumberOfBricks(int numberOfBricks) {
 		this.numberOfBricks = numberOfBricks;
 	}
-	
+
 	public boolean isDispatched() {
 		return isDispatched;
 	}
@@ -75,6 +75,5 @@ public class Order {
 		return "Order [id=" + id + ", orderReference=" + orderReference + ", numberOfBricks=" + numberOfBricks
 				+ ", isDispatched=" + isDispatched + "]";
 	}
-	
-	
+
 }

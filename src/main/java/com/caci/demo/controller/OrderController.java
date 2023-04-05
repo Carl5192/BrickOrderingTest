@@ -18,49 +18,49 @@ import com.caci.demo.service.OrderService;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-    private final OrderService orderService;
+	private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
+	public OrderController(OrderService orderService) {
+		this.orderService = orderService;
+	}
 
-    @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody int numberOfBricks) {
-        Order order = orderService.createOrder(numberOfBricks);
-        return ResponseEntity.ok(order.getOrderReference());
-    }
+	@PostMapping
+	public ResponseEntity<String> createOrder(@RequestBody int numberOfBricks) {
+		Order order = orderService.createOrder(numberOfBricks);
+		return ResponseEntity.ok(order.getOrderReference());
+	}
 
-    @GetMapping("/{orderReference}")
-    public ResponseEntity<Order> getOrder(@PathVariable String orderReference) {
-        Optional<Order> optionalOrder = orderService.getOrder(orderReference);
-        return optionalOrder.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+	@GetMapping("/{orderReference}")
+	public ResponseEntity<Order> getOrder(@PathVariable String orderReference) {
+		Optional<Order> optionalOrder = orderService.getOrder(orderReference);
+		return optionalOrder.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	}
 
-    @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
-    }
+	@GetMapping
+	public ResponseEntity<List<Order>> getAllOrders() {
+		List<Order> orders = orderService.getAllOrders();
+		return ResponseEntity.ok(orders);
+	}
 
-    @PutMapping("/{orderReference}")
-    public ResponseEntity<Order> updateOrder(@PathVariable String orderReference, @RequestBody int numberOfBricks) {
-        Optional<Order> optionalOrder = orderService.updateOrder(orderReference, numberOfBricks);
-        if (optionalOrder.isPresent()) {
-            Order order = optionalOrder.get();
-            if (order.isDispatched()) {
-                return ResponseEntity.badRequest().build();
-            }
-            return ResponseEntity.ok(order);
-        }
-        return ResponseEntity.notFound().build();
-    }
+	@PutMapping("/{orderReference}")
+	public ResponseEntity<Order> updateOrder(@PathVariable String orderReference, @RequestBody int numberOfBricks) {
+		Optional<Order> optionalOrder = orderService.updateOrder(orderReference, numberOfBricks);
+		if (optionalOrder.isPresent()) {
+			Order order = optionalOrder.get();
+			if (order.isDispatched()) {
+				return ResponseEntity.badRequest().build();
+			}
+			return ResponseEntity.ok(order);
+		}
+		return ResponseEntity.notFound().build();
+	}
 
-    @PostMapping("/{orderReference}/fulfil")
-    public ResponseEntity<Void> fulfilOrder(@PathVariable String orderReference) {
-        boolean fulfilled = orderService.fulfilOrder(orderReference);
-        if (fulfilled) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
-    }
+	@PostMapping("/{orderReference}/fulfil")
+	public ResponseEntity<Void> fulfilOrder(@PathVariable String orderReference) {
+		boolean fulfilled = orderService.fulfilOrder(orderReference);
+		if (fulfilled) {
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.badRequest().build();
+	}
 }
